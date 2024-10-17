@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -28,10 +29,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles',[RoleController::class,'index'])->name('roles.index');
     Route::get('/roles/create',[RoleController::class,'create'])->name('roles.create');
     Route::post('/roles',[RoleController::class,'store'])->name('roles.store');
-    
     Route::get('/roles/{id}/edit',[RoleController::class,'edit'])->name('roles.edit');
     Route::post('/roles/{id}',[RoleController::class,'update'])->name('roles.update');
     Route::delete('/roles/', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+    Route::get('/articles',[ArticleController::class,'index'])->name('articles.index');
+    Route::get('/articles/create',[ArticleController::class,'create'])->name('articles.create');
+    Route::post('/articles',[ArticleController::class,'store'])->name('articles.store');
+    Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('articles.edit');
+    // Route::post('/articles/{id}',[ArticleController::class,'update'])->name('articles.update');
+    // Route::delete('/articles/', [ArticleController::class, 'destroy'])->name('articles.destroy');
 
 
 });
