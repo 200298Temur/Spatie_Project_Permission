@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -17,7 +18,7 @@ class UserController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:view users', ['index']),
             new Middleware('permission:edit users', ['edit']),
-            // new Middleware('permission:create users', ['create']),
+            new Middleware('permission:create users', ['create']),
             // new Middleware('permission:delete users', ['destroy']),
         ];
     }
@@ -38,15 +39,39 @@ class UserController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        //
+        $roles=Role::orderBy('name','asc')->get();
+        return view('users.create',[
+            'roles'=>$roles
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {  
+        // Fix typo in 'validator'
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:5|same:confirm_password',
+            'confirm_password'=>'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->route('users.create')
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $user=new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();    
+        
+        $user->syncRoles($request->role);
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
     /**
