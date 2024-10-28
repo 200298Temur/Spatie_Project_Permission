@@ -12,11 +12,16 @@ use Illuminate\Routing\Controllers\Middleware;
 class ArticleController extends Controller implements  HasMiddleware
 {
     
-    public static function middleware(){
+    public static function middleware()
+    {
         return [
-            new Middleware('permission:view users',['index']),
+            new Middleware('permission:view articles', ['index']),
+            new Middleware('permission:create articles', ['create']),
+            new Middleware('permission:edit articles', ['edit']),
+            new Middleware('permission:delete articles', ['destroy']),
         ];
     }
+
      
     public function index()
     {
