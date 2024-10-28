@@ -33,7 +33,7 @@
                         </div>
                         <label for="" class="text-lg font-medium">Password</label>
                         <div class="my-3">
-                            <input value="{{ old('password') }}" name="email" placeholder="Enter Password" type="password"
+                            <input value="{{ old('password') }}" name="password" placeholder="Enter Password" type="password"
                              class="border-gray-300 shadow-sm w-1/2 rounded-lg">
                              @error('password')
                                  <p class="text-red-400 font-medium">{{ $message }}</p>
@@ -41,7 +41,7 @@
                         </div>
                         <label for="" class="text-lg font-medium">Confirm Password</label>
                         <div class="my-3">
-                            <input value="{{ old('confirm_password') }}" name="email" placeholder="Confirm Your Password" type="password"
+                            <input value="{{ old('confirm_password') }}" name="confirm_password" placeholder="Confirm Your Password" type="password"
                              class="border-gray-300 shadow-sm w-1/2 rounded-lg">
                              @error('confirm_password')
                                  <p class="text-red-400 font-medium">{{ $message }}</p>
@@ -62,7 +62,7 @@
                         </div>
                                                
                         <button class="bg-slate-700 hover:bg-slate-500 text-sm rounded-md text-white px-5 py-3">
-                            Update
+                            Create
                         </button>
                     </form>
                 </div>

@@ -4,9 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Users') }}
             </h2>
-            {{-- @can('create users') --}}
+            @can('create users')
                 <a href="{{route('users.create')}}" class="bg-slate-700 hover:bg-slate-600 text-sm rounded-md text-white px-3 py-2">Create</a>
-            {{-- @endcan --}}
+            @endcan
         </div>
     </x-slot>
 

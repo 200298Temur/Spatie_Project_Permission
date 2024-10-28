@@ -71,7 +71,7 @@ class UserController extends Controller implements HasMiddleware
         $user->save();    
         
         $user->syncRoles($request->role);
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->route('users.index')->with('success', 'User added successfully');
     }
 
     /**
