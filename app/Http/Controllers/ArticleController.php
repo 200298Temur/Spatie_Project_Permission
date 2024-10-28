@@ -6,12 +6,18 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ArticleController extends Controller
+class ArticleController extends Controller implements  HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+    public static function middleware(){
+        return [
+            new Middleware('permission:view users',['index']),
+        ];
+    }
+     
     public function index()
     {
         $articles=Article::latest()->paginate(25);
