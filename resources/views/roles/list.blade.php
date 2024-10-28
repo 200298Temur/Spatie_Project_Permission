@@ -62,19 +62,18 @@
             function deleteRole(id){
                 if(confirm('Are you sure you want to delete?')){
                     $.ajax({
-                        url: '{{ route('roles.destroy') }}',
-                        type:'delete',
-                        data:{id:id},
-                        dataType:'json',
-                        headers:{
-                            'x-csrf-token':'{{ csrf_token() }}'
+                        url: '{{ url("roles") }}/' + id, // Use URL with ID for DELETE route
+                        type: 'DELETE',
+                        data: { _token: '{{ csrf_token() }}' }, // Send CSRF token as part of data
+                        success: function(response){
+                            window.location.href = '{{ route('roles.index') }}'; // Reload or redirect
                         },
-                        success:function(response){
-                            window.location.href='{{route('roles.index')}}'
+                        error: function(xhr){
+                            alert('An error occurred while deleting the role');
                         }
-                    })
+                    });
                 }
             }
-        </script>
+        </script>        
     </x-slot>
 </x-app-layout>

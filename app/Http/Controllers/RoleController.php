@@ -75,20 +75,25 @@ class RoleController extends Controller
         }
     }
      
-    public function destroy($id){
-        $role=Role::find($id);
-        if($role==null){
-            session()->flash('error','Role not found');
+    public function destroy($id)
+    {
+        $role = Role::find($id);
+        
+        if (!$role) {
+            session()->flash('error', 'Role not found');
             return response()->json([
-                'status'=>false
-            ]);
+                'status' => false,
+                'message' => 'Role not found'
+            ], 404); // Send 404 status code
         }
-
+    
         $role->delete();
-        session()->flash('success','Role deleted successfully');
+        session()->flash('success', 'Role deleted successfully');
         return response()->json([
-            'status'=>true
-        ]);
+            'status' => true,
+            'message' => 'Role deleted successfully'
+        ], 200); // Send 200 status code
     }
+    
 }
 

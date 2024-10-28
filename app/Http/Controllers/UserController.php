@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -11,7 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users=User::latest()->paginate(10);
+        return view('users.list',[
+           
+            'users'=>$users,
+        ]);
     }
 
     /**
@@ -43,7 +50,16 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user=User::findOrFail($id);
+        $roles=Role::orderBy('name','asc')->get();
+
+        $hasRoles=$user->roles->pluck('id');
+        // dd($hasRoles);
+        return view('users.edit',[
+            'user'=>$user,
+            'roles'=>$roles,
+            'hasRoles'=>$hasRoles,
+        ]);
     }
 
     /**
@@ -51,14 +67,37 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+    
+        // Fix typo in 'validator'
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->route('users.edit', $id)
+                ->withInput()
+                ->withErrors($validator);
+        }
+    
+        // Update user data
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+    
+        // Sync roles
+        $user->syncRoles($request->role);
+    
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
