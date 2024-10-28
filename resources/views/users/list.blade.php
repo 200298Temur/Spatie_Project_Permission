@@ -52,9 +52,9 @@
                                         text-white px-3 py-2 hover:bg-slate-600">Edit</a>
                                     @endcan
                                      
-                                  {{--  <a href="javascript:void(0)" onclick="deleteuser({{ $user->id }})" 
+                                   <a href="javascript:void(0)" onclick="deleteUser({{ $user->id }})" 
                                         class="bg-red-600  text-sm rounded-md 
-                                        text-white px-3 py-2 hover:bg-red-500">Delete</a> --}}
+                                        text-white px-3 py-2 hover:bg-red-500">Delete</a>
                                 </td>
                             </tr>
                             @endforeach                        
@@ -68,9 +68,9 @@
             </div>
         </div>
     </div>
-    {{-- <x-slot name='script'>
+    <x-slot name='script'>
         <script type="text/javascript">
-            function deleteuser(id){
+            function deleteUser(id){
                 if(confirm('Are you sure you want to delete?')){
                     $.ajax({
                         url: '{{ route('users.destroy') }}',
@@ -87,5 +87,5 @@
                 }
             }
         </script>
-    </x-slot> --}}
+    </x-slot>
 </x-app-layout>

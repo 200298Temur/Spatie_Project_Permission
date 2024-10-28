@@ -133,8 +133,19 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        
+        $user=User::find($request->id);
+        if($user==null){
+            session()->flash('error','User not found');
+            return response()->json([
+                'status'=>false,
+            ]);
+        }
+        $user->delete();
+        session()->flash('success','User deleted successfully');
+        return response()->json([
+            'status'=>true,
+        ]);
     }
 }
